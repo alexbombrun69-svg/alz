@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alpe d'Huez Hors-Piste</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
   <style>
-    body { font-family: Arial; text-align: center; }
+    body { margin: 0; font-family: Arial, sans-serif; }
+    #map { height: 100vh; width: 100%; }
+    .info { position: absolute; top: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 1000; }
   </style>
 </head>
 <body>
-  <h1>Carte des Hors-Pistes Alpe d'Huez</h1>
-  <p>Projet en construction...</p>
+  <div class="info">
+    <h3>🗺️ Hors-Piste Alpe d'Huez</h3>
+    <p>Clique sur les marqueurs pour les infos !</p>
+  </div>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <script>
+    // Initialiser la carte centrée sur Alpe d'Huez
+    const map = L.map('map').setView([45.052, 6.069], 13);  // Coordonnées Pic Blanc
+    
+    // Ajouter fond de carte gratuit
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Marqueur exemple : Hors-piste "La Chapelle d'Auris"
+    const marker = L.marker([45.032, 6.055]).addTo(map)
+      .bindPopup(`
+        <b>La Chapelle d'Auris</b><br>
+        <strong>Inclinaison :</strong> 35-40°<br>
+        <strong>Exposition :</strong> Nord<br>
+        <strong>Conditions idéales :</strong> Poudre après tempête<br>
+        <strong>Risque avalanche :</strong> À vérifier via Météo-France
+      `);
+    
+    // Popup au clic sur la carte
+    map.on('click', function(e) {
+      alert('Coordonnées cliquées : ' + e.latlng.lat + ', ' + e.latlng.lng);
+    });
+  </script>
 </body>
 </html>
